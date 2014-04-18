@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/com.avaje.ebean.eclipse.feature_1.0.0.qualifier.jar" id="com.avaje.ebean.eclipse.feature" version="1.0.0.qualifier">
+      <category name="com.avaje.ebean.eclipse.released"/>
+   </feature>
+   <!-- sources are only available via the maven build and cannot be added using the 'category' editor in eclipse -->
+   <feature url="features/com.avaje.ebean.eclipse.feature.source_1.0.0.qualifier.jar" id="com.avaje.ebean.eclipse.feature.source" version="1.0.0.qualifier">
+      <category name="com.avaje.ebean.eclipse.source"/>
+   </feature>
+   <category-def name="com.avaje.ebean.eclipse.released" label="Released">
+     <description>
+       Ebean Eclipse AutoEnhancer
+     </description>
+   </category-def>
+   <category-def name="com.avaje.ebean.eclipse.source" label="Source">
+     <description>
+       Ebean Eclipse AutoEnhancer Developer Resources
+     </description>
+   </category-def>
+</site>

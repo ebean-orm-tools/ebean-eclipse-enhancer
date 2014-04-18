@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="com.avaje.ebean.eclipse.feature"
+      label="%plugin.name"
+      version="1.0.0.qualifier"
+      provider-name="%plugin.provider">
+
+   <description url="">
+      %description
+   </description>
+
+   <copyright>
+      %copyright
+   </copyright>
+
+   <license>
+      %license
+   </license>
+
+   <url>
+      <update label="%updateSiteName" url="http://www.avaje.org/eclipse/update/"/>
+      <discovery label="%discoverySiteName" url="http://www.avaje.org/eclipse/update/"/>
+   </url>
+
+   <requires>
+      <import plugin="org.eclipse.core.runtime" version="3.8.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.core.resources" version="3.8.1" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.jdt" version="3.8.1" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.jdt.core" version="3.8.2" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.ui" version="3.104.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.jdt.launching" version="3.6.101" match="greaterOrEqual"/>
+   </requires>
+
+   <plugin
+         id="com.avaje.ebean.eclipse.enhancer"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+</feature>
