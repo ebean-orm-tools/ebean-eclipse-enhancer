@@ -21,9 +21,9 @@ public class EnhancePreferencePage extends FieldEditorPreferencePage implements 
 {
 
     private String toggleMenuDescription = "Enhancement is enabled/disabled per project:\n"
-        + " - select the project\n"
-        + " - right mouse button menu\n"
-        + " - Enable/Disable Ebean Enhancement";
+        + " - Select the project\n"
+        + " - Right mouse button menu\n"
+        + " - Configure - Enable/Disable Ebean AutoEnhancer";
 
     public EnhancePreferencePage()
     {
@@ -87,7 +87,7 @@ public class EnhancePreferencePage extends FieldEditorPreferencePage implements 
         addField(new LabelPairFieldEditor("Location:", "${workspace}/.metadata/.log", getFieldEditorParent()));
 
         addField(new SpacerFieldEditor(getFieldEditorParent()));
-        addField(new LabelFieldEditor("Note: For eclipse 3.4 you can view this log via (window - show view - error log).",
+        addField(new LabelFieldEditor("Note: You can view this log via (Window - Show View - Error Log).",
                 getFieldEditorParent()));
 
     }

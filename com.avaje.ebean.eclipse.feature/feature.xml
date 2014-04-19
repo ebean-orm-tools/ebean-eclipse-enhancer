@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="com.avaje.ebean.eclipse.feature"
+      id="com.avaje.ebean.eclipse"
       label="%plugin.name"
-      version="1.0.0.qualifier"
+      version="3.0.1"
       provider-name="%plugin.provider">
 
    <description url="">
