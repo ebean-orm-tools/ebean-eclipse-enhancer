@@ -1,11 +1,13 @@
 avaje-ebeanorm-eclipse
 ======================
 
-ebean orm eclipse plugin for auto enhancement using the 3.x.x java agent
+ebean orm eclipse plugin for auto enhancement using the 4.x.x java agent
 
 ### important
 
 this plugin is incompatible with the existing ebean plugin. please uninstall the original plugin before continuing. don't forget to disable the existing nature first! failure to do so will require manual editting of the .project files to remove existing entries.
+
+if you have already performed the above step to install the prior version of this plugin supporting 3.x.x agent, you may perform a direct upgrade.
 
 ### build
 
