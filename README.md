@@ -15,7 +15,7 @@ if you have already performed the above step to install the prior version of thi
 
 this will create an update site (and cooresponding zip for local install) in `update.site/target`
 
-you must before a build before importing into eclipse to properly setup dependencies
+you must perform a build before importing into eclipse to properly setup dependencies
 
 ### eclipse import
 
