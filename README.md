@@ -1,7 +1,7 @@
 avaje-ebeanorm-eclipse
 ======================
 
-ebean orm eclipse plugin for auto enhancement using the 4.x.x java agent
+ebean orm eclipse plugin for auto enhancement using the 4.x.x java agent - you **must** use this version of the plugin if you are using ebean 4.x.x.
 
 ### important
 
