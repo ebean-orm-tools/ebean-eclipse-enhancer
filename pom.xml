@@ -10,11 +10,11 @@
 
   <groupId>org.avaje.ebeanorm</groupId>
   <artifactId>avaje-ebeanorm-eclipse</artifactId>
-  <version>1.0.0</version>
+  <version>4.0.1</version>
   <packaging>pom</packaging>
 
   <properties>
-    <tycho-version>0.20.0</tycho-version>
+    <tycho-version>0.21.0</tycho-version>
     <maven.compiler.showWarnings>false</maven.compiler.showWarnings>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
