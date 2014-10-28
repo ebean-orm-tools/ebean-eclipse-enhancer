@@ -6,9 +6,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
-
 import java.net.URL;
-
 import java.util.Arrays;
 import java.util.Map;
 
@@ -16,7 +14,8 @@ import com.avaje.ebean.eclipse.internal.enhancer.EnhancerPlugin;
 import com.avaje.ebean.enhance.agent.Transformer;
 import com.avaje.ebean.enhance.agent.UrlPathHelper;
 import com.avaje.ebean.enhance.asm.ClassReader;
-import com.avaje.ebean.enhance.asm.EmptyVisitor;
+import com.avaje.ebean.enhance.asm.ClassVisitor;
+import com.avaje.ebean.enhance.asm.Opcodes;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -165,8 +164,12 @@ public final class EnhanceBuilder extends IncrementalProjectBuilder
             }
         }
 
-        private static class DetermineClassVisitor extends EmptyVisitor
+        private static class DetermineClassVisitor extends ClassVisitor
         {
+            public DetermineClassVisitor() {
+                super(Opcodes.ASM5);
+            }
+
             @Override public void visit(int version, int access, String name, String signature, String superName, String[] interfaces)
             {
                 throw new GotClassName(name);

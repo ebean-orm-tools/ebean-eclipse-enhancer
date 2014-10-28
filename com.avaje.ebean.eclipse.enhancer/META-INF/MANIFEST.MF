@@ -21,4 +21,4 @@ Bundle-ActivationPolicy: lazy
 Bundle-Vendor: %plugin.provider
 Bundle-Source: com.avaje.ebean.eclipse.enhancer.source
 Bundle-ClassPath: .,
- lib/avaje-ebeanorm-agent-4.1.2.jar
+ lib/avaje-ebeanorm-agent-4.1.9.jar
