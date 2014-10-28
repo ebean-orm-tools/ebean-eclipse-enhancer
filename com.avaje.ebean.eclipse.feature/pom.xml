@@ -9,12 +9,11 @@
   <parent>
     <groupId>org.avaje.ebeanorm</groupId>
     <artifactId>avaje-ebeanorm-eclipse</artifactId>
-    <version>1.0.0</version>
+    <version>4.0.1</version>
     <relativePath>../</relativePath>
   </parent>
 
-  <artifactId>com.avaje.ebean.eclipse</artifactId>
-  <version>4.0.0</version>
+  <artifactId>com.avaje.ebean.eclipse</artifactId>  
   <packaging>eclipse-feature</packaging>
 
   <build>
