@@ -10,12 +10,8 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 
 
 /**
- * This class represents a preference page that is contributed to the Preferences dialog. By subclassing <samp>
- * FieldEditorPreferencePage</samp>, we can use the field support built into JFace that allows us to create a page that is small and knows
- * how to save, restore and apply itself.
- *
- * <p>This page is used to modify preferences only. They are stored in the preference store that belongs to the main plug-in class. That
- * way, preferences can be accessed directly via the preference store.</p>
+ * This page is used to modify preferences only. They are stored in the preference store that belongs to the main plug-in class. That
+ * way, preferences can be accessed directly via the preference store.
  */
 public class EnhancePreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage
 {
@@ -23,7 +19,7 @@ public class EnhancePreferencePage extends FieldEditorPreferencePage implements 
     private String toggleMenuDescription = "Enhancement is enabled/disabled per project:\n"
         + " - Select the project\n"
         + " - Right mouse button menu\n"
-        + " - Configure - Enable/Disable Ebean AutoEnhancer";
+        + " - Configure - Enable/Disable Ebean Enhancer";
 
     public EnhancePreferencePage()
     {
