@@ -41,7 +41,7 @@ public class ToggleNatureHandler extends AbstractHandler
     {
         if ((selection != null) && (selection instanceof IStructuredSelection))
         {
-            for (Iterator<Object> iterator = ((IStructuredSelection) selection).iterator(); iterator.hasNext();)
+            for (Iterator<?> iterator = ((IStructuredSelection) selection).iterator(); iterator.hasNext();)
             {
                 Object object = iterator.next();
                 if (object instanceof IAdaptable)

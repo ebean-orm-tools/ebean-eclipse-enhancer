@@ -71,11 +71,11 @@ public class ToggleNatureMenuItem extends CompoundContributionItem implements IW
                     {
                         if (project.hasNature(EnhancerConstants.NATURE_ID))
                         {
-                            menuText = "Disable Ebean AutoEnhancer";
+                            menuText = "Disable Ebean Enhancer";
                         }
                         else
                         {
-                            menuText = "Enable Ebean AutoEnhancer";
+                            menuText = "Enable Ebean Enhancer";
                         }
                     }
                     catch (CoreException e)

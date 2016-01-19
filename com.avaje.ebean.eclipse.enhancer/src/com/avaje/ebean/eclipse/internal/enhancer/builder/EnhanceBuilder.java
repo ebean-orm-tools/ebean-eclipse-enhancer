@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.Map;
 
 import com.avaje.ebean.eclipse.internal.enhancer.EnhancerPlugin;
+import com.avaje.ebean.enhance.agent.MessageOutput;
 import com.avaje.ebean.enhance.agent.Transformer;
 import com.avaje.ebean.enhance.agent.UrlPathHelper;
 import com.avaje.ebean.enhance.asm.ClassReader;
@@ -82,7 +83,12 @@ public final class EnhanceBuilder extends IncrementalProjectBuilder
             }
 
             Transformer et = new Transformer(paths, "debug=" + EnhancerPlugin.getEnhanceDebugLevel());
-            et.setLogout(transformLog);
+            et.setLogout(new MessageOutput() {
+				@Override
+				public void println(String msg) {
+					EnhancerPlugin.logInfo(msg);
+				}
+            });
 
             byte[] outBytes = et.transform(null, className, null, null, classBytes);
 
