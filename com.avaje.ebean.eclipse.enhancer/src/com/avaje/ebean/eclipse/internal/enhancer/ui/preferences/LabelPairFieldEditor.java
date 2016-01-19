@@ -8,43 +8,43 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
-
 /**
  * A pair of labels.
  */
-public class LabelPairFieldEditor extends FieldEditor
-{
+public class LabelPairFieldEditor extends FieldEditor {
     Label secondLabel;
 
     /**
      * Create a pair of labels.
      *
-     * @param labelText       the left had side text
-     * @param secondLabelText the right hand side text
-     * @param parent          the parent Composite
+     * @param labelText
+     *            the left had side text
+     * @param secondLabelText
+     *            the right hand side text
+     * @param parent
+     *            the parent Composite
      */
-    public LabelPairFieldEditor(String labelText, String secondLabelText, Composite parent)
-    {
+    public LabelPairFieldEditor(String labelText, String secondLabelText, Composite parent) {
         super("label", labelText, parent);
 
         // secondLabel is created as part of super(...)
         secondLabel.setText(secondLabelText);
     }
 
-    @Override public int getNumberOfControls()
-    {
+    @Override
+    public int getNumberOfControls() {
         return 2;
     }
 
-    @Override protected void adjustForNumColumns(int numColumns)
-    {
+    @Override
+    protected void adjustForNumColumns(int numColumns) {
         GridData gd = (GridData) secondLabel.getLayoutData();
         gd.horizontalSpan = numColumns - 1;
         gd.grabExcessHorizontalSpace = gd.horizontalSpan == 1;
     }
 
-    @Override protected void doFillIntoGrid(Composite parent, int numColumns)
-    {
+    @Override
+    protected void doFillIntoGrid(Composite parent, int numColumns) {
         getLabelControl(parent);
 
         secondLabel = createSecondLabelControl(parent);
@@ -56,32 +56,30 @@ public class LabelPairFieldEditor extends FieldEditor
         secondLabel.setLayoutData(gd);
     }
 
-    @Override protected void doLoad()
-    {
+    @Override
+    protected void doLoad() {
         // no-op
     }
 
-    @Override protected void doLoadDefault()
-    {
+    @Override
+    protected void doLoadDefault() {
         // no-op
     }
 
-    @Override protected void doStore()
-    {
+    @Override
+    protected void doStore() {
         // no-op
     }
 
-    private Label createSecondLabelControl(Composite parent)
-    {
+    private Label createSecondLabelControl(Composite parent) {
         secondLabel = new Label(parent, SWT.LEFT);
         secondLabel.setFont(parent.getFont());
-        secondLabel.addDisposeListener(new DisposeListener()
-            {
-                @Override public void widgetDisposed(DisposeEvent event)
-                {
-                    secondLabel = null;
-                }
-            });
+        secondLabel.addDisposeListener(new DisposeListener() {
+            @Override
+            public void widgetDisposed(DisposeEvent event) {
+                secondLabel = null;
+            }
+        });
         return secondLabel;
     }
 
