@@ -29,17 +29,19 @@
   </extension>
 
   <extension point="org.eclipse.ui.menus">
-    <menuContribution locationURI="popup:org.eclipse.ui.projectConfigure?after=additions">
+    <menuContribution locationURI="menu:project?after=projectProperties">
       <dynamic
         class="com.avaje.ebean.eclipse.internal.enhancer.ui.ToggleNatureMenuItem"
         id="com.avaje.ebean.eclipse.enhancer.menus.toggleNature.dyanmic">
-        <visibleWhen checkEnabled="false">
-          <with variable="activeMenuSelection">
-            <iterate ifEmpty="false" operator="or">
-              <adapt type="org.eclipse.jdt.core.IJavaProject" />
-            </iterate>
-          </with>
-        </visibleWhen>
+      </dynamic>
+    </menuContribution>
+  </extension>
+
+  <extension point="org.eclipse.ui.menus">
+    <menuContribution locationURI="popup:org.eclipse.ui.projectConfigure">
+      <dynamic
+        class="com.avaje.ebean.eclipse.internal.enhancer.ui.ToggleNatureMenuItem"
+        id="com.avaje.ebean.eclipse.enhancer.menus.toggleNature.dyanmic">
       </dynamic>
     </menuContribution>
   </extension>
@@ -61,6 +63,12 @@
   <extension point="org.eclipse.core.runtime.preferences">
     <initializer
       class="com.avaje.ebean.eclipse.internal.enhancer.PreferenceInitializer" />
+  </extension>
+  <extension
+        point="org.eclipse.ui.popupMenus">
+  </extension>
+  <extension
+        point="org.eclipse.ui.menus">
   </extension>
 
 </plugin>
