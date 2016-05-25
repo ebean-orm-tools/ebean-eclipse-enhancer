@@ -9,36 +9,33 @@ import org.eclipse.ui.IWorkbenchPart;
 
 public class NewAction implements IObjectActionDelegate {
 
-	private Shell shell;
-	
-	/**
-	 * Constructor for Action1.
-	 */
-	public NewAction() {
-		super();
-	}
+  private Shell shell;
 
-	/**
-	 * @see IObjectActionDelegate#setActivePart(IAction, IWorkbenchPart)
-	 */
-	public void setActivePart(IAction action, IWorkbenchPart targetPart) {
-		shell = targetPart.getSite().getShell();
-	}
+  /**
+   * Constructor for Action1.
+   */
+  public NewAction() {
+    super();
+  }
 
-	/**
-	 * @see IActionDelegate#run(IAction)
-	 */
-	public void run(IAction action) {
-		MessageDialog.openInformation(
-			shell,
-			"Ebean Enhancer",
-			"New Action was executed.");
-	}
+  /**
+   * @see IObjectActionDelegate#setActivePart(IAction, IWorkbenchPart)
+   */
+  public void setActivePart(IAction action, IWorkbenchPart targetPart) {
+    shell = targetPart.getSite().getShell();
+  }
 
-	/**
-	 * @see IActionDelegate#selectionChanged(IAction, ISelection)
-	 */
-	public void selectionChanged(IAction action, ISelection selection) {
-	}
+  /**
+   * @see IActionDelegate#run(IAction)
+   */
+  public void run(IAction action) {
+    MessageDialog.openInformation(shell, "Ebean Enhancer", "New Action was executed.");
+  }
+
+  /**
+   * @see IActionDelegate#selectionChanged(IAction, ISelection)
+   */
+  public void selectionChanged(IAction action, ISelection selection) {
+  }
 
 }

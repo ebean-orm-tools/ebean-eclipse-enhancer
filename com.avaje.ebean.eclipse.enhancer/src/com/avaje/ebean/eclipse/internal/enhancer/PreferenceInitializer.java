@@ -10,11 +10,11 @@ import com.avaje.ebean.eclipse.internal.enhancer.ui.preferences.PreferenceConsta
  */
 public class PreferenceInitializer extends AbstractPreferenceInitializer {
 
-    @Override
-    public void initializeDefaultPreferences() {
-        IPreferenceStore store = EnhancerPlugin.getDefault().getPreferenceStore();
-        store.setDefault(PreferenceConstants.P_PLUGIN_DEBUG_LEVEL, "1");
-        store.setDefault(PreferenceConstants.P_ENHANCE_DEBUG_LEVEL, "1");
-    }
+  @Override
+  public void initializeDefaultPreferences() {
+    IPreferenceStore store = EnhancerPlugin.getDefault().getPreferenceStore();
+    store.setDefault(PreferenceConstants.P_PLUGIN_DEBUG_LEVEL, "1");
+    store.setDefault(PreferenceConstants.P_ENHANCE_DEBUG_LEVEL, "1");
+  }
 
 }
