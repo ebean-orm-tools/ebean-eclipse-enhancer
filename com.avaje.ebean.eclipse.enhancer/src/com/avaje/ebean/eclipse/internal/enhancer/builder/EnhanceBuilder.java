@@ -32,10 +32,11 @@ import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.launching.JavaRuntime;
 
 public final class EnhanceBuilder extends IncrementalProjectBuilder {
+  
   @Override
   protected IProject[] build(int kind, Map<String, String> args, IProgressMonitor monitor) throws CoreException {
+    
     IProject project = getProject();
-
     if (kind == FULL_BUILD) {
       fullBuild(monitor);
     } else {
@@ -69,7 +70,8 @@ public final class EnhanceBuilder extends IncrementalProjectBuilder {
         EnhancerPlugin.logInfo("... classpath: " + Arrays.toString(paths));
       }
 
-      Transformer et = new Transformer(paths, "debug=" + EnhancerPlugin.getEnhanceDebugLevel());
+      int enhanceDebugLevel = EnhancerPlugin.getEnhanceDebugLevel();
+      Transformer et = new Transformer(paths, "debug=" + enhanceDebugLevel);
       et.setLogout(new MessageOutput() {
         @Override
         public void println(String msg) {
@@ -79,6 +81,12 @@ public final class EnhanceBuilder extends IncrementalProjectBuilder {
 
       byte[] outBytes = et.transform(null, className, null, null, classBytes);
 
+      if (outBytes == null) {
+        // try query bean enhancement
+        QueryBeanEnhancer queryBeanEnhancer = new QueryBeanEnhancer(paths, enhanceDebugLevel);
+        outBytes = queryBeanEnhancer.enhance(className, classBytes);
+      }
+
       if (outBytes != null) {
         ByteArrayInputStream bais = new ByteArrayInputStream(outBytes);
         file.setContents(bais, true, false, monitor);
@@ -87,10 +95,10 @@ public final class EnhanceBuilder extends IncrementalProjectBuilder {
           EnhancerPlugin.logInfo("enhanced: " + className);
         }
       }
+
     } catch (Exception e) {
       EnhancerPlugin.logError("Error during enhancement", e);
     }
-
   }
 
   private void fullBuild(final IProgressMonitor monitor) {
@@ -102,16 +110,17 @@ public final class EnhanceBuilder extends IncrementalProjectBuilder {
   }
 
   private URL[] getClasspath() throws CoreException {
+    
     IProject project = getProject();
     IJavaProject javaProject = JavaCore.create(project);
 
     String[] ideClassPath = JavaRuntime.computeDefaultRuntimeClassPath(javaProject);
 
-    URL[] paths = UrlPathHelper.convertToUrl(ideClassPath);
-    return paths;
+    return UrlPathHelper.convertToUrl(ideClassPath);
   }
 
   private byte[] readBytes(InputStream in) throws IOException {
+    
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
     BufferedInputStream bi = new BufferedInputStream(in);
 
