@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %plugin.name
 Bundle-SymbolicName: com.avaje.ebean.eclipse.enhancer;singleton:=true
-Bundle-Version: 4.9.2
+Bundle-Version: 4.10.1
 Bundle-Localization: plugin
 Bundle-Activator: com.avaje.ebean.eclipse.internal.enhancer.EnhancerPlugin
 Export-Package: com.avaje.ebean.eclipse.internal.enhancer;x-internal:=true,
@@ -21,5 +21,5 @@ Bundle-ActivationPolicy: lazy
 Bundle-Vendor: %plugin.provider
 Bundle-Source: com.avaje.ebean.eclipse.enhancer.source
 Bundle-ClassPath: .,
- lib/avaje-ebeanorm-agent-4.9.2.jar,
- lib/querybean-agent-2.1.1.jar
+ lib/querybean-agent-2.1.1.jar,
+ lib/avaje-ebeanorm-agent-4.10.1.jar

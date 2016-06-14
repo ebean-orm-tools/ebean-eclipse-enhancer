@@ -9,12 +9,12 @@
   <parent>
     <groupId>org.avaje.ebeanorm</groupId>
     <artifactId>avaje-ebeanorm-eclipse</artifactId>
-    <version>4.9.2</version>
+    <version>4.10.1</version>
     <relativePath>../</relativePath>
   </parent>
 
   <artifactId>update.site</artifactId>  
   <packaging>eclipse-repository</packaging>
-  <version>4.9.2</version>
+  <version>4.10.1</version>
 
 </project>
