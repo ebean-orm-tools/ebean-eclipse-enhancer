@@ -4,18 +4,18 @@ import java.lang.instrument.IllegalClassFormatException;
 import java.net.URL;
 import java.net.URLClassLoader;
 
-import org.avaje.ebean.typequery.agent.Transformer;
+import org.avaje.ebean.typequery.agent.QueryBeanTransformer;
 
 /**
  * Perform query bean enhancement.
  */
 public class QueryBeanEnhancer {
 
-  private final Transformer transformer;
+  private final QueryBeanTransformer transformer;
   
   public QueryBeanEnhancer(URL[] classPath, int enhanceDebugLevel) {
     URLClassLoader cl = new URLClassLoader(classPath);
-    this.transformer = new Transformer("debug="+enhanceDebugLevel, cl, null);
+    this.transformer = new QueryBeanTransformer("debug="+enhanceDebugLevel, cl, null);
   }
   
   /**
