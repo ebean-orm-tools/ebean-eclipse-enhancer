@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.Arrays;
 import java.util.Map;
 
@@ -18,6 +19,9 @@ import com.avaje.ebean.enhance.asm.ClassReader;
 import com.avaje.ebean.enhance.asm.ClassVisitor;
 import com.avaje.ebean.enhance.asm.Opcodes;
 
+import org.avaje.ebean.typequery.agent.CombinedTransform;
+import org.avaje.ebean.typequery.agent.CombinedTransform.Response;
+import org.avaje.ebean.typequery.agent.QueryBeanTransformer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -71,29 +75,27 @@ public final class EnhanceBuilder extends IncrementalProjectBuilder {
       }
 
       int enhanceDebugLevel = EnhancerPlugin.getEnhanceDebugLevel();
-      Transformer et = new Transformer(paths, "debug=" + enhanceDebugLevel);
-      et.setLogout(new MessageOutput() {
+
+      URLClassLoader cl = new URLClassLoader(paths);
+      QueryBeanTransformer queryBeanTransformer = new QueryBeanTransformer("debug="+enhanceDebugLevel, cl, null);
+
+      Transformer entityBeanTransformer = new Transformer(paths, "debug=" + enhanceDebugLevel);
+      entityBeanTransformer.setLogout(new MessageOutput() {
         @Override
         public void println(String msg) {
           EnhancerPlugin.logInfo(msg);
         }
       });
-
-      byte[] outBytes = et.transform(null, className, null, null, classBytes);
-
-      if (outBytes == null) {
-        // try query bean enhancement
-        QueryBeanEnhancer queryBeanEnhancer = new QueryBeanEnhancer(paths, enhanceDebugLevel);
-        outBytes = queryBeanEnhancer.enhance(className, classBytes);
-      }
-
-      if (outBytes != null) {
+      
+      CombinedTransform combined = new CombinedTransform(entityBeanTransformer, queryBeanTransformer);
+      Response response = combined.transform(null, className, null, null, classBytes);
+      if (response.isEnhanced()) {
+        byte[] outBytes = response.getClassBytes();
         ByteArrayInputStream bais = new ByteArrayInputStream(outBytes);
         file.setContents(bais, true, false, monitor);
-
         if (pluginDebug >= 1) {
           EnhancerPlugin.logInfo("enhanced: " + className);
-        }
+        }        
       }
 
     } catch (Exception e) {
