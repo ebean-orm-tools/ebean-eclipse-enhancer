@@ -5,9 +5,15 @@ ebean orm eclipse plugin for auto enhancement using the 4.x.x java agent - you *
 
 ### important
 
-this plugin is incompatible with the existing ebean plugin. please uninstall the original plugin before continuing. don't forget to disable the existing nature first! failure to do so will require manual editting of the .project files to remove existing entries.
+this plugin is incompatible with the existing ebean plugin. please uninstall the original plugin before continuing. don't forget to disable the existing nature first! failure to do so will require manual editing of the .project files to remove existing entries.
 
 if you have already performed the above step to install the prior version of this plugin supporting 3.x.x agent, you may perform a direct upgrade.
+
+### information
+
+If you simply want to install this plugin into Eclipse, please follow the instructions here: http://ebean-orm.github.io/docs/setup/eclipse-apt
+
+This project is the source code for the Eclipse plugin for eBean ORM enhancements. You do not need to build this project if you simply want to install the plugin in Eclipse. Visit the above URL instead.
 
 ### build
 
