@@ -8,9 +8,9 @@
     <maven>3.0</maven>
   </prerequisites>
 
-  <groupId>org.avaje.ebeanorm</groupId>
-  <artifactId>avaje-ebeanorm-eclipse</artifactId>
-  <version>4.11.2</version>
+  <groupId>org.avaje.ebean</groupId>
+  <artifactId>ebean-eclipse</artifactId>
+  <version>8.1.0</version>
   <packaging>pom</packaging>
 
   <properties>
