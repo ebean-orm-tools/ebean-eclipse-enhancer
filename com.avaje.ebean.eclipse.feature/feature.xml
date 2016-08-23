@@ -2,7 +2,7 @@
 <feature
       id="com.avaje.ebean.eclipse"
       label="%plugin.name"
-      version="4.11.2"
+      version="8.1.0"
       provider-name="%plugin.provider">
 
    <description url="">
