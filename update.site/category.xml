@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/com.avaje.ebean.eclipse_8.1.0.jar" id="com.avaje.ebean.eclipse" version="8.1.0">
+   <feature url="features/com.avaje.ebean.eclipse_8.1.1.jar" id="com.avaje.ebean.eclipse" version="8.1.1">
       <category name="com.avaje.ebean.eclipse.released"/>
    </feature>
    <category-def name="com.avaje.ebean.eclipse.released" label="Released">
       <description>
-         Ebean Eclipse AutoEnhancer
+         Ebean Eclipse Enhancer
       </description>
    </category-def>
    <category-def name="com.avaje.ebean.eclipse.source" label="Source">
       <description>
-         Ebean Eclipse AutoEnhancer Developer Resources
+         Ebean Eclipse Enhancer Developer Resources
       </description>
    </category-def>
 </site>
