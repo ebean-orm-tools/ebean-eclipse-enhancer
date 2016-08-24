@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/com.avaje.ebean.eclipse_8.1.0.jar" id="com.avaje.ebean.eclipse" version="8.1.0">
+   <feature url="features/com.avaje.ebean.eclipse_8.1.1.qualifier.jar" id="com.avaje.ebean.eclipse" version="8.1.1.qualifier">
       <category name="com.avaje.ebean.eclipse.released"/>
    </feature>
    <category-def name="com.avaje.ebean.eclipse.released" label="Released">
