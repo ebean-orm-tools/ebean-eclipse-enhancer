@@ -1,19 +1,20 @@
 ebean-eclipse
 ======================
 
-ebean orm eclipse plugin for auto enhancement using the 8.x.x java agent - you **must** use this version of the plugin if you are using ebean 4.x.x.
+Ebean ORM eclipse enhancement plugin.  This performs Ebean enhancement for both entity beans and "query beans" as part of Eclipse IDE compile.
 
-### important
+You can use this plugin in conjunction with other enhancement like the maven plugin.
 
-this plugin is incompatible with the existing ebean plugin. please uninstall the original plugin before continuing. don't forget to disable the existing nature first! failure to do so will require manual editing of the .project files to remove existing entries.
+Note that when using the 8.x.x java agent - you **must** use Ebean 8.x.x
 
-if you have already performed the above step to install the prior version of this plugin supporting 3.x.x agent, you may perform a direct upgrade.
+For older plugins to use with Ebean 4.x to Ebean 7.x use the update site at: http://ebean-orm.github.io/eclipse/update-4.11.2 or get a build from https://github.com/ebean-orm/ebean-eclipse-enhancer/tree/master/builds 
+
 
 ### information
 
 If you simply want to install this plugin into Eclipse, please follow the instructions here: http://ebean-orm.github.io/docs/setup/eclipse-apt
 
-This project is the source code for the Eclipse plugin for eBean ORM enhancements. You do not need to build this project if you simply want to install the plugin in Eclipse. Visit the above URL instead.
+This project is the source code for the Eclipse plugin for Ebean ORM enhancement. You do not need to build this project if you simply want to install the plugin in Eclipse. Visit the above URL instead.
 
 ### build
 

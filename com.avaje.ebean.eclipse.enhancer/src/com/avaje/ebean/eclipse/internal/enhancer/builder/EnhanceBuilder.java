@@ -5,21 +5,12 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.PrintStream;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-
-import com.avaje.ebean.eclipse.internal.enhancer.EnhancerPlugin;
-import com.avaje.ebean.enhance.agent.MessageOutput;
-import com.avaje.ebean.enhance.agent.Transformer;
-import com.avaje.ebean.enhance.agent.UrlPathHelper;
-import com.avaje.ebean.enhance.asm.ClassReader;
-import com.avaje.ebean.enhance.asm.ClassVisitor;
-import com.avaje.ebean.enhance.asm.Opcodes;
 
 import org.avaje.ebean.typequery.agent.CombinedTransform;
 import org.avaje.ebean.typequery.agent.CombinedTransform.Response;
@@ -40,6 +31,14 @@ import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.internal.core.JavaModelManager;
 import org.eclipse.jdt.launching.JavaRuntime;
+
+import com.avaje.ebean.eclipse.internal.enhancer.EnhancerPlugin;
+import com.avaje.ebean.enhance.agent.MessageOutput;
+import com.avaje.ebean.enhance.agent.Transformer;
+import com.avaje.ebean.enhance.agent.UrlPathHelper;
+import com.avaje.ebean.enhance.asm.ClassReader;
+import com.avaje.ebean.enhance.asm.ClassVisitor;
+import com.avaje.ebean.enhance.asm.Opcodes;
 
 public final class EnhanceBuilder extends IncrementalProjectBuilder {
   
@@ -110,29 +109,14 @@ public final class EnhanceBuilder extends IncrementalProjectBuilder {
 
       URLClassLoader cl = new URLClassLoader(paths);
       QueryBeanTransformer queryBeanTransformer = new QueryBeanTransformer("debug="+enhanceDebugLevel, cl, null);
-      // TODO: This is still a big hack, QueryBeanTransformer should be refactored to use also a class like
-      // "MessageOutput"
-      OutputStream nullOs = new OutputStream(){
-  	    public void write(int b) {
-	        //NO-OP
-	    }
-      };
-      queryBeanTransformer.setLogout(new PrintStream(nullOs) {
-          @Override
-		  // as far as I can see, only println is invoked in QueryBeanTransformer, so this shoud
-		  // in most cases.
-          public void println(String msg) {
-            EnhancerPlugin.logInfo(msg);
-          }
-      });
       
       Transformer entityBeanTransformer = new Transformer(paths, "debug=" + enhanceDebugLevel);
       entityBeanTransformer.setLogout(new MessageOutput() {
-          @Override
-          public void println(String msg) {
-            EnhancerPlugin.logInfo(msg);
-          }
-        });
+        @Override
+        public void println(String msg) {
+          EnhancerPlugin.logInfo(msg);
+        }
+      });
       
       CombinedTransform combined = new CombinedTransform(entityBeanTransformer, queryBeanTransformer);
       Response response = combined.transform(cl, className, null, null, classBytes);
