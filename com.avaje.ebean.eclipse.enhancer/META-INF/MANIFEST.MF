@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %plugin.name
 Bundle-SymbolicName: com.avaje.ebean.eclipse.enhancer;singleton:=true
-Bundle-Version: 8.1.1.qualifier
+Bundle-Version: 8.1.2.qualifier
 Bundle-Localization: plugin
 Bundle-Activator: com.avaje.ebean.eclipse.internal.enhancer.EnhancerPlugin
 Export-Package: com.avaje.ebean.eclipse.internal.enhancer;x-internal:=true,
