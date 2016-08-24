@@ -135,7 +135,7 @@ public final class EnhanceBuilder extends IncrementalProjectBuilder {
         });
       
       CombinedTransform combined = new CombinedTransform(entityBeanTransformer, queryBeanTransformer);
-      Response response = combined.transform(null, className, null, null, classBytes);
+      Response response = combined.transform(cl, className, null, null, classBytes);
       if (response.isEnhanced()) {
         byte[] outBytes = response.getClassBytes();
         ByteArrayInputStream bais = new ByteArrayInputStream(outBytes);
