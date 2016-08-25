@@ -9,12 +9,14 @@ import java.io.PrintStream;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import org.avaje.ebean.typequery.agent.CombinedTransform;
 import org.avaje.ebean.typequery.agent.CombinedTransform.Response;
 import org.avaje.ebean.typequery.agent.QueryBeanTransformer;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceDelta;
@@ -24,7 +26,10 @@ import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.jdt.internal.core.JavaModelManager;
 import org.eclipse.jdt.launching.JavaRuntime;
 
 import com.avaje.ebean.eclipse.internal.enhancer.EnhancerPlugin;
@@ -54,8 +59,29 @@ public final class EnhanceBuilder extends IncrementalProjectBuilder {
 
     return null;
   }
-
-  private void checkResource(IResource resource, IProgressMonitor monitor) {
+  /**
+   * Find the corresponding source for this class in the project.
+   * @throws CoreException 
+   */
+  private IFile findSourcePath(IProject project, String className) throws CoreException {
+    if (project.hasNature(JavaCore.NATURE_ID)) {
+      IJavaProject javaProject = JavaCore.create(project);
+      try {
+        IType type = javaProject.findType(className);
+        if (type != null) {
+          IFile sourceFile = project.getWorkspace().getRoot().getFile(type.getPath());
+          if (sourceFile.exists()) {
+            return sourceFile;
+          }
+        }
+      } catch (JavaModelException e) {
+        EnhancerPlugin.logError("Error in findSourcePath", e);
+      }
+    }
+    return null;
+    
+  }
+  private void checkResource(IResource resource, IProgressMonitor monitor) throws CoreException {
     if (!((resource instanceof IFile) && resource.getName().endsWith(".class"))) {
       return;
     }
@@ -63,10 +89,15 @@ public final class EnhanceBuilder extends IncrementalProjectBuilder {
     IFile file = (IFile) resource;
     int pluginDebug = EnhancerPlugin.getDebugLevel();
 
+    // try to place error markers on sourceFile, if it does not exist, place marker on project
+    IProject project = resource.getProject();
+    IFile sourceFile = null;
+    
     try (InputStream is = file.getContents(); PrintStream transformLog = EnhancerPlugin.createTransformLog()) {
       byte[] classBytes = readBytes(is);
       String className = DetermineClass.getClassName(classBytes);
-
+      sourceFile = findSourcePath(project, className);
+     
       URL[] paths = getClasspath();
 
       if (pluginDebug >= 2) {
@@ -88,7 +119,7 @@ public final class EnhanceBuilder extends IncrementalProjectBuilder {
       });
       
       CombinedTransform combined = new CombinedTransform(entityBeanTransformer, queryBeanTransformer);
-      Response response = combined.transform(null, className, null, null, classBytes);
+      Response response = combined.transform(cl, className, null, null, classBytes);
       if (response.isEnhanced()) {
         byte[] outBytes = response.getClassBytes();
         ByteArrayInputStream bais = new ByteArrayInputStream(outBytes);
@@ -97,9 +128,32 @@ public final class EnhanceBuilder extends IncrementalProjectBuilder {
           EnhancerPlugin.logInfo("enhanced: " + className);
         }        
       }
-
+      // create Markers for all errors in SourceFile
+      
+      if (sourceFile != null) {
+        sourceFile.deleteMarkers(IMarker.PROBLEM, true, IResource.DEPTH_INFINITE);   
+      }
+      for(List<Throwable> list : entityBeanTransformer.getUnexpectedExceptions().values() ) {
+        for (Throwable t : list) {
+          createErrorMarker(sourceFile == null ? project :sourceFile, t);
+        }
+      }
+ 
     } catch (Exception e) {
       EnhancerPlugin.logError("Error during enhancement", e);
+      createErrorMarker(sourceFile == null ? project :sourceFile, e);
+    }
+  }
+
+  private void createErrorMarker(IResource target, Throwable t) {
+    try {
+      IMarker marker = target.createMarker(IMarker.PROBLEM);
+      marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR);
+      marker.setAttribute(IMarker.MESSAGE, "Error during enhancement: " + t.getMessage());
+      marker.setAttribute(IMarker.PRIORITY, IMarker.PRIORITY_HIGH);
+      marker.setAttribute(IMarker.LINE_NUMBER, 1);
+    } catch (CoreException e) {
+      EnhancerPlugin.logError("Error during creating marker", e);
     }
   }
 
@@ -188,7 +242,7 @@ public final class EnhanceBuilder extends IncrementalProjectBuilder {
     }
 
     @Override
-    public boolean visit(IResourceDelta delta) {
+    public boolean visit(IResourceDelta delta) throws CoreException {
       IResource resource = delta.getResource();
       switch (delta.getKind()) {
       case IResourceDelta.ADDED: {
@@ -217,7 +271,7 @@ public final class EnhanceBuilder extends IncrementalProjectBuilder {
     }
 
     @Override
-    public boolean visit(IResource resource) {
+    public boolean visit(IResource resource) throws CoreException {
       checkResource(resource, monitor);
       return true;
     }
