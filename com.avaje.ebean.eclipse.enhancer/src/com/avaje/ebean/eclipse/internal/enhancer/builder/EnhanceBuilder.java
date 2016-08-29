@@ -130,9 +130,17 @@ public final class EnhanceBuilder extends IncrementalProjectBuilder {
       }
       // create Markers for all errors in SourceFile
       
-      if (sourceFile != null) {
-        sourceFile.deleteMarkers(IMarker.PROBLEM, true, IResource.DEPTH_INFINITE);   
-      }
+//      if (sourceFile != null) {
+//        for (IMarker marker : sourceFile.findMarkers(IMarker.PROBLEM, true, IResource.DEPTH_INFINITE)) {
+//          // Quick fix, delete only our markers.
+//          // I'm not sure if this is really required
+//          if (marker.getAttribute(IMarker.MESSAGE) != null 
+//              && marker.getAttribute(IMarker.MESSAGE).toString().startsWith("Error during enhancement")) {
+//                  marker.delete();
+//          }
+//            
+//        }
+//      }
       for(List<Throwable> list : entityBeanTransformer.getUnexpectedExceptions().values() ) {
         for (Throwable t : list) {
           createErrorMarker(sourceFile == null ? project :sourceFile, t);
