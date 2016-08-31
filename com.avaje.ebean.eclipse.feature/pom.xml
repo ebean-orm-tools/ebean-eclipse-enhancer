@@ -9,7 +9,7 @@
   <parent>
     <groupId>org.avaje.ebean</groupId>
     <artifactId>ebean-eclipse</artifactId>
-    <version>8.1.2</version>
+    <version>8.1.3-SNAPSHOT</version>
     <relativePath>../</relativePath>
   </parent>
 
