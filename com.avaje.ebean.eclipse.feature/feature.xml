@@ -2,7 +2,7 @@
 <feature
       id="com.avaje.ebean.eclipse"
       label="%plugin.name"
-      version="8.1.3.qualifier"
+      version="8.1.3"
       provider-name="%plugin.provider">
 
    <description url="">
@@ -19,7 +19,7 @@
 
    <url>
       <update label="%updateSiteName" url="http://ebean-orm.github.io/eclipse/update/"/>
-      <discovery label="%discoverySiteName" url="http://www.avaje.org/eclipse/update/"/>
+      <discovery label="%discoverySiteName" url="http://ebean-orm.github.io/eclipse/update/"/>
    </url>
 
    <requires>

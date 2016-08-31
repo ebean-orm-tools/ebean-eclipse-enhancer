@@ -29,7 +29,6 @@ import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
-import org.eclipse.jdt.internal.core.JavaModelManager;
 import org.eclipse.jdt.launching.JavaRuntime;
 
 import com.avaje.ebean.eclipse.internal.enhancer.EnhancerPlugin;
@@ -129,18 +128,6 @@ public final class EnhanceBuilder extends IncrementalProjectBuilder {
         }        
       }
       // create Markers for all errors in SourceFile
-      
-//      if (sourceFile != null) {
-//        for (IMarker marker : sourceFile.findMarkers(IMarker.PROBLEM, true, IResource.DEPTH_INFINITE)) {
-//          // Quick fix, delete only our markers.
-//          // I'm not sure if this is really required
-//          if (marker.getAttribute(IMarker.MESSAGE) != null 
-//              && marker.getAttribute(IMarker.MESSAGE).toString().startsWith("Error during enhancement")) {
-//                  marker.delete();
-//          }
-//            
-//        }
-//      }
       for(List<Throwable> list : entityBeanTransformer.getUnexpectedExceptions().values() ) {
         for (Throwable t : list) {
           createErrorMarker(sourceFile == null ? project :sourceFile, t);
