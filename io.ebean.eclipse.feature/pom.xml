@@ -7,13 +7,13 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.avaje.ebean</groupId>
+    <groupId>io.ebean</groupId>
     <artifactId>ebean-eclipse</artifactId>
-    <version>8.1.3</version>
+    <version>10.1.1-SNAPSHOT</version>
     <relativePath>../</relativePath>
   </parent>
 
-  <artifactId>com.avaje.ebean.eclipse</artifactId>  
+  <artifactId>io.ebean.eclipse</artifactId>  
   <packaging>eclipse-feature</packaging>
 
   <build>
