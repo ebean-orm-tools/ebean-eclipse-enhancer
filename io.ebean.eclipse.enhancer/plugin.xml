@@ -3,27 +3,27 @@
 <plugin>
 
   <extension
-    id="com.avaje.ebean.eclipse.enhancer.builder.ebeanBuilder"
+    id="io.ebean.eclipse.enhancer.builder.ebeanBuilder"
     name="%enhanceBuilder.name"
     point="org.eclipse.core.resources.builders">
     <builder hasNature="true">
-      <run class="com.avaje.ebean.eclipse.internal.enhancer.builder.EnhanceBuilder" />
+      <run class="io.ebean.eclipse.internal.enhancer.builder.EnhanceBuilder" />
     </builder>
   </extension>
 
   <extension
-    id="com.avaje.ebean.eclipse.enhancer.ebeanNature"
+    id="io.ebean.eclipse.enhancer.ebeanNature"
     name="%projectNature.name"
     point="org.eclipse.core.resources.natures">
     <runtime>
-      <run class="com.avaje.ebean.eclipse.internal.enhancer.builder.EnhanceNature" />
+      <run class="io.ebean.eclipse.internal.enhancer.builder.EnhanceNature" />
     </runtime>
-    <builder id="com.avaje.ebean.eclipse.enhancer.builder.ebeanBuilder" />
+    <builder id="io.ebean.eclipse.enhancer.builder.ebeanBuilder" />
   </extension>
 
   <extension point="org.eclipse.ui.commands">
     <command
-      id="com.avaje.ebean.eclipse.enhancer.commands.toggleNature"
+      id="io.ebean.eclipse.enhancer.commands.toggleNature"
       name="%projectNature.toggle">
     </command>
   </extension>
@@ -31,8 +31,8 @@
   <extension point="org.eclipse.ui.menus">
     <menuContribution locationURI="menu:project?after=projectProperties">
       <dynamic
-        class="com.avaje.ebean.eclipse.internal.enhancer.ui.ToggleNatureMenuItem"
-        id="com.avaje.ebean.eclipse.enhancer.menus.toggleNature.dyanmic">
+        class="io.ebean.eclipse.internal.enhancer.ui.ToggleNatureMenuItem"
+        id="io.ebean.eclipse.enhancer.menus.toggleNature.dyanmic">
       </dynamic>
     </menuContribution>
   </extension>
@@ -40,29 +40,29 @@
   <extension point="org.eclipse.ui.menus">
     <menuContribution locationURI="popup:org.eclipse.ui.projectConfigure">
       <dynamic
-        class="com.avaje.ebean.eclipse.internal.enhancer.ui.ToggleNatureMenuItem"
-        id="com.avaje.ebean.eclipse.enhancer.menus.toggleNature.dyanmic">
+        class="io.ebean.eclipse.internal.enhancer.ui.ToggleNatureMenuItem"
+        id="io.ebean.eclipse.enhancer.menus.toggleNature.dyanmic">
       </dynamic>
     </menuContribution>
   </extension>
 
   <extension point="org.eclipse.ui.handlers">
     <handler
-      commandId="com.avaje.ebean.eclipse.enhancer.commands.toggleNature"
-      class="com.avaje.ebean.eclipse.internal.enhancer.ui.ToggleNatureHandler" />
+      commandId="io.ebean.eclipse.enhancer.commands.toggleNature"
+      class="io.ebean.eclipse.internal.enhancer.ui.ToggleNatureHandler" />
   </extension>
 
   <extension point="org.eclipse.ui.preferencePages">
     <page
-      class="com.avaje.ebean.eclipse.internal.enhancer.ui.preferences.EnhancePreferencePage"
-      id="com.avaje.ebean.eclipse.enhancer.preferences.enhancePreferencePage"
+      class="io.ebean.eclipse.internal.enhancer.ui.preferences.EnhancePreferencePage"
+      id="io.ebean.eclipse.enhancer.preferences.enhancePreferencePage"
       name="%preferencePage.name">
     </page>
   </extension>
 
   <extension point="org.eclipse.core.runtime.preferences">
     <initializer
-      class="com.avaje.ebean.eclipse.internal.enhancer.PreferenceInitializer" />
+      class="io.ebean.eclipse.internal.enhancer.PreferenceInitializer" />
   </extension>
   <extension
         point="org.eclipse.ui.popupMenus">

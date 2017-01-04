@@ -22,7 +22,7 @@ import io.ebean.eclipse.internal.enhancer.ui.preferences.PreferenceConstants;
  */
 public class EnhancerPlugin extends AbstractUIPlugin {
   // The plug-in ID
-  public static final String PLUGIN_ID = "com.avaje.ebean.eclipse.enhancer";
+  public static final String PLUGIN_ID = "io.ebean.eclipse.enhancer";
 
   // The shared instance
   private static EnhancerPlugin plugin;

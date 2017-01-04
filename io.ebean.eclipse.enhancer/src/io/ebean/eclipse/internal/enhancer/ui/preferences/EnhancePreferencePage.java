@@ -47,7 +47,7 @@ public class EnhancePreferencePage extends FieldEditorPreferencePage implements 
 
     addField(new LabelPairFieldEditor("Purpose:", "Logging the enhancement process", getFieldEditorParent()));
     addField(new LabelPairFieldEditor("Location:",
-        "${workspace}/.metadata/.plugins/\ncom.avaje.ebean.enhancer.plugin.log/enhance.log", getFieldEditorParent()));
+        "${workspace}/.metadata/.plugins/\nio.ebean.enhancer.plugin.log/enhance.log", getFieldEditorParent()));
 
     addField(new SpacerFieldEditor(getFieldEditorParent()));
 

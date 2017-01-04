@@ -12,9 +12,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import org.avaje.ebean.typequery.agent.CombinedTransform;
-import org.avaje.ebean.typequery.agent.CombinedTransform.Response;
-import org.avaje.ebean.typequery.agent.QueryBeanTransformer;
+import io.ebean.typequery.agent.CombinedTransform;
+import io.ebean.typequery.agent.CombinedTransform.Response;
+import io.ebean.typequery.agent.QueryBeanTransformer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
@@ -31,12 +31,12 @@ import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.launching.JavaRuntime;
 
-import com.avaje.ebean.enhance.agent.MessageOutput;
-import com.avaje.ebean.enhance.agent.Transformer;
-import com.avaje.ebean.enhance.agent.UrlPathHelper;
-import com.avaje.ebean.enhance.asm.ClassReader;
-import com.avaje.ebean.enhance.asm.ClassVisitor;
-import com.avaje.ebean.enhance.asm.Opcodes;
+import io.ebean.enhance.agent.MessageOutput;
+import io.ebean.enhance.agent.Transformer;
+import io.ebean.enhance.agent.UrlPathHelper;
+import io.ebean.enhance.asm.ClassReader;
+import io.ebean.enhance.asm.ClassVisitor;
+import io.ebean.enhance.asm.Opcodes;
 
 import io.ebean.eclipse.internal.enhancer.EnhancerPlugin;
 
