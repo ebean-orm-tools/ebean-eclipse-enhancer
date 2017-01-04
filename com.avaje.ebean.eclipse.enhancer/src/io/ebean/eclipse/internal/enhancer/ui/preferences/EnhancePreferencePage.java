@@ -1,12 +1,12 @@
-package com.avaje.ebean.eclipse.internal.enhancer.ui.preferences;
-
-import com.avaje.ebean.eclipse.internal.enhancer.EnhancerPlugin;
+package io.ebean.eclipse.internal.enhancer.ui.preferences;
 
 import org.eclipse.jface.preference.ComboFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
+
+import io.ebean.eclipse.internal.enhancer.EnhancerPlugin;
 
 /**
  * This page is used to modify preferences only. They are stored in the

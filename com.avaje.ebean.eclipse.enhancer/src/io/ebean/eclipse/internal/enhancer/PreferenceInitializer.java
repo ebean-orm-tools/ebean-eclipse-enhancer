@@ -1,9 +1,9 @@
-package com.avaje.ebean.eclipse.internal.enhancer;
+package io.ebean.eclipse.internal.enhancer;
 
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.jface.preference.IPreferenceStore;
 
-import com.avaje.ebean.eclipse.internal.enhancer.ui.preferences.PreferenceConstants;
+import io.ebean.eclipse.internal.enhancer.ui.preferences.PreferenceConstants;
 
 /**
  * Class used to initialise default preference values.

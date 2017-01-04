@@ -1,4 +1,4 @@
-package com.avaje.ebean.eclipse.internal.enhancer;
+package io.ebean.eclipse.internal.enhancer;
 
 public final class EnhancerConstants {
 

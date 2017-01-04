@@ -1,10 +1,10 @@
-package com.avaje.ebean.eclipse.internal.enhancer.ui;
+package io.ebean.eclipse.internal.enhancer.ui;
 
 import java.util.Iterator;
 
-import com.avaje.ebean.eclipse.internal.enhancer.EnhancerConstants;
-import com.avaje.ebean.eclipse.internal.enhancer.EnhancerPlugin;
-import com.avaje.ebean.eclipse.internal.enhancer.builder.EnhanceNature;
+import io.ebean.eclipse.internal.enhancer.EnhancerConstants;
+import io.ebean.eclipse.internal.enhancer.EnhancerPlugin;
+import io.ebean.eclipse.internal.enhancer.builder.EnhanceNature;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;

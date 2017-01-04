@@ -1,7 +1,4 @@
-package com.avaje.ebean.eclipse.internal.enhancer.ui;
-
-import com.avaje.ebean.eclipse.internal.enhancer.EnhancerConstants;
-import com.avaje.ebean.eclipse.internal.enhancer.EnhancerPlugin;
+package io.ebean.eclipse.internal.enhancer.ui;
 
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
@@ -23,6 +20,9 @@ import org.eclipse.ui.actions.CompoundContributionItem;
 import org.eclipse.ui.commands.ICommandService;
 import org.eclipse.ui.menus.IWorkbenchContribution;
 import org.eclipse.ui.services.IServiceLocator;
+
+import io.ebean.eclipse.internal.enhancer.EnhancerConstants;
+import io.ebean.eclipse.internal.enhancer.EnhancerPlugin;
 
 public class ToggleNatureMenuItem extends CompoundContributionItem implements IWorkbenchContribution {
   private IServiceLocator serviceLocator;

@@ -1,4 +1,4 @@
-package com.avaje.ebean.eclipse.internal.enhancer.builder;
+package io.ebean.eclipse.internal.enhancer.builder;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
@@ -31,13 +31,14 @@ import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.launching.JavaRuntime;
 
-import com.avaje.ebean.eclipse.internal.enhancer.EnhancerPlugin;
 import com.avaje.ebean.enhance.agent.MessageOutput;
 import com.avaje.ebean.enhance.agent.Transformer;
 import com.avaje.ebean.enhance.agent.UrlPathHelper;
 import com.avaje.ebean.enhance.asm.ClassReader;
 import com.avaje.ebean.enhance.asm.ClassVisitor;
 import com.avaje.ebean.enhance.asm.Opcodes;
+
+import io.ebean.eclipse.internal.enhancer.EnhancerPlugin;
 
 public final class EnhanceBuilder extends IncrementalProjectBuilder {
   

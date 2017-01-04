@@ -1,4 +1,4 @@
-package com.avaje.ebean.eclipse.enhancer.popup.actions;
+package io.ebean.eclipse.enhancer.popup.actions;
 
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;

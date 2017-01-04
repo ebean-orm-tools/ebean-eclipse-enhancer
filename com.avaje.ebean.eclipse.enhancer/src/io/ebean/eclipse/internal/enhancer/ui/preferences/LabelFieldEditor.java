@@ -1,4 +1,4 @@
-package com.avaje.ebean.eclipse.internal.enhancer.ui.preferences;
+package io.ebean.eclipse.internal.enhancer.ui.preferences;
 
 import org.eclipse.jface.preference.FieldEditor;
 import org.eclipse.swt.layout.GridData;

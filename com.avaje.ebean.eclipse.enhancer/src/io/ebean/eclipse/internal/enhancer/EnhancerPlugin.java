@@ -1,12 +1,10 @@
-package com.avaje.ebean.eclipse.internal.enhancer;
+package io.ebean.eclipse.internal.enhancer;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
-
-import com.avaje.ebean.eclipse.internal.enhancer.ui.preferences.PreferenceConstants;
 
 import org.eclipse.core.runtime.ILog;
 import org.eclipse.core.runtime.IPath;
@@ -16,6 +14,8 @@ import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
+
+import io.ebean.eclipse.internal.enhancer.ui.preferences.PreferenceConstants;
 
 /**
  * The activator controlling the plug-in life cycle

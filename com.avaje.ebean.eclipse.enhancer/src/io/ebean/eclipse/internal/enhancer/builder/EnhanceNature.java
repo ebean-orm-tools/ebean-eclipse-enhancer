@@ -1,11 +1,8 @@
-package com.avaje.ebean.eclipse.internal.enhancer.builder;
+package io.ebean.eclipse.internal.enhancer.builder;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import com.avaje.ebean.eclipse.internal.enhancer.EnhancerConstants;
-import com.avaje.ebean.eclipse.internal.enhancer.EnhancerPlugin;
 
 import org.eclipse.core.resources.ICommand;
 import org.eclipse.core.resources.IProject;
@@ -14,6 +11,9 @@ import org.eclipse.core.resources.IProjectNature;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
+
+import io.ebean.eclipse.internal.enhancer.EnhancerConstants;
+import io.ebean.eclipse.internal.enhancer.EnhancerPlugin;
 
 public final class EnhanceNature implements IProjectNature {
   private IProject project;
