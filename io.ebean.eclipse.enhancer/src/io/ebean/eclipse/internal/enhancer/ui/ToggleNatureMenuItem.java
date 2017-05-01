@@ -57,10 +57,10 @@ public class ToggleNatureMenuItem extends CompoundContributionItem implements IW
          * for now...
          */
         IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
-        IProject project = ToggleNatureHandler.getProject(window.getActivePage().getSelection());
+        IProject project = ToggleNatureHandler.getProject(window.getActivePage().getSelection(), "fill menu");
 
         // this is the 'default' text
-        String menuText = "Toggle Ebean AutoEnhancer";
+        String menuText = "Toggle Ebean Enhancer";
 
         if (project != null) {
           try {

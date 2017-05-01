@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/io.ebean.eclipse_10.1.1.qualifier.jar" id="io.ebean.eclipse" version="10.1.1.qualifier">
+   <feature url="features/io.ebean.eclipse_10.2.1.qualifier.jar" id="io.ebean.eclipse" version="10.2.1.qualifier">
       <category name="io.ebean.eclipse.released"/>
    </feature>
    <category-def name="io.ebean.eclipse.released" label="Released">

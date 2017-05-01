@@ -5,16 +5,11 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.PrintStream;
+import java.lang.instrument.IllegalClassFormatException;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 
-import io.ebean.typequery.agent.CombinedTransform;
-import io.ebean.typequery.agent.CombinedTransform.Response;
-import io.ebean.typequery.agent.QueryBeanTransformer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
@@ -26,19 +21,21 @@ import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jdt.core.IJavaProject;
-import org.eclipse.jdt.core.IType;
+//import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaCore;
-import org.eclipse.jdt.core.JavaModelException;
+//import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.launching.JavaRuntime;
 
-import io.ebean.enhance.agent.MessageOutput;
-import io.ebean.enhance.agent.Transformer;
-import io.ebean.enhance.agent.UrlPathHelper;
+import io.ebean.eclipse.internal.enhancer.EnhancerPlugin;
+import io.ebean.enhance.Transformer;
 import io.ebean.enhance.asm.ClassReader;
 import io.ebean.enhance.asm.ClassVisitor;
 import io.ebean.enhance.asm.Opcodes;
-
-import io.ebean.eclipse.internal.enhancer.EnhancerPlugin;
+import io.ebean.enhance.common.AgentManifest;
+import io.ebean.enhance.common.ClassBytesReader;
+import io.ebean.enhance.common.UrlPathHelper;
+import io.ebean.enhance.entity.ClassPathClassBytesReader;
+import io.ebean.enhance.entity.MessageOutput;
 
 public final class EnhanceBuilder extends IncrementalProjectBuilder {
   
@@ -59,93 +56,103 @@ public final class EnhanceBuilder extends IncrementalProjectBuilder {
 
     return null;
   }
-  /**
-   * Find the corresponding source for this class in the project.
-   * @throws CoreException 
-   */
-  private IFile findSourcePath(IProject project, String className) throws CoreException {
-    if (project.hasNature(JavaCore.NATURE_ID)) {
-      IJavaProject javaProject = JavaCore.create(project);
-      try {
-        IType type = javaProject.findType(className);
-        if (type != null) {
-          IFile sourceFile = project.getWorkspace().getRoot().getFile(type.getPath());
-          if (sourceFile.exists()) {
-            return sourceFile;
-          }
-        }
-      } catch (JavaModelException e) {
-        EnhancerPlugin.logError("Error in findSourcePath", e);
+  
+//  /**
+//   * Find the corresponding source for this class in the project.
+//   */
+//  private IFile findSourcePath(IProject project, String className) throws CoreException {
+//    if (project.hasNature(JavaCore.NATURE_ID)) {
+//      IJavaProject javaProject = JavaCore.create(project);
+//      try {
+//        IType type = javaProject.findType(className);
+//        if (type != null) {
+//          IFile sourceFile = project.getWorkspace().getRoot().getFile(type.getPath());
+//          if (sourceFile.exists()) {
+//            return sourceFile;
+//          }
+//        }
+//      } catch (JavaModelException e) {
+//        EnhancerPlugin.logError("Error in findSourcePath", e);
+//      }
+//    }
+//    return null;
+//  }
+
+  private boolean isClass(IResource resource) {
+    if (resource instanceof IFile) {
+      IFile file = (IFile)resource;
+      String extn = file.getFileExtension();
+      if (extn != null && extn.equals("class")) {
+        return true;
       }
     }
-    return null;
-    
+    return false;
   }
+
   private void checkResource(IResource resource, IProgressMonitor monitor) throws CoreException {
-    if (!((resource instanceof IFile) && resource.getName().endsWith(".class"))) {
+    if (!isClass(resource)) {
       return;
     }
+    process(resource, monitor, transformContext());
+  }
+  
+  private void process(IResource resource, IProgressMonitor monitor, TransformContext context) throws CoreException {
 
-    IFile file = (IFile) resource;
+    IFile file = (IFile) resource; 
     int pluginDebug = EnhancerPlugin.getDebugLevel();
 
     // try to place error markers on sourceFile, if it does not exist, place marker on project
     IProject project = resource.getProject();
-    IFile sourceFile = null;
-    
-    try (InputStream is = file.getContents(); PrintStream transformLog = EnhancerPlugin.createTransformLog()) {
-      byte[] classBytes = readBytes(is);
-      String className = DetermineClass.getClassName(classBytes);
-      sourceFile = findSourcePath(project, className);
-     
-      URL[] paths = getClasspath();
 
+    byte[] classBytes;
+    try (InputStream is = file.getContents()) {
+      classBytes = readBytes(is);
+    } catch (Exception e) {
+      EnhancerPlugin.logError("Failed to read class bytes", e);
+      createErrorMarker(project, e);
+      return;
+    }
+    
+    //IFile sourceFile = null;
+    try {
+      String className = DetermineClass.getClassName(classBytes);
+      className = className.replace('.', '/');
+      //sourceFile = findSourcePath(project, className);
+     
       if (pluginDebug >= 2) {
         EnhancerPlugin.logInfo("... processing class: " + className);
-        EnhancerPlugin.logInfo("... classpath: " + Arrays.toString(paths));
       }
 
-      int enhanceDebugLevel = EnhancerPlugin.getEnhanceDebugLevel();
-
-      URLClassLoader cl = new URLClassLoader(paths);
-      QueryBeanTransformer queryBeanTransformer = new QueryBeanTransformer("debug="+enhanceDebugLevel, cl, null);
+      byte[] bytes = context.transform(className, classBytes);
       
-      Transformer entityBeanTransformer = new Transformer(paths, "debug=" + enhanceDebugLevel);
-      entityBeanTransformer.setLogout(new MessageOutput() {
-        @Override
-        public void println(String msg) {
-          EnhancerPlugin.logInfo(msg);
-        }
-      });
-      
-      CombinedTransform combined = new CombinedTransform(entityBeanTransformer, queryBeanTransformer);
-      Response response = combined.transform(cl, className, null, null, classBytes);
-      if (response.isEnhanced()) {
-        byte[] outBytes = response.getClassBytes();
-        ByteArrayInputStream bais = new ByteArrayInputStream(outBytes);
+      if (bytes != null) {
+        ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
         file.setContents(bais, true, false, monitor);
         if (pluginDebug >= 1) {
           EnhancerPlugin.logInfo("enhanced: " + className);
-        }        
+        }    
       }
-      // create Markers for all errors in SourceFile
-      for(List<Throwable> list : entityBeanTransformer.getUnexpectedExceptions().values() ) {
-        for (Throwable t : list) {
-          createErrorMarker(sourceFile == null ? project :sourceFile, t);
-        }
-      }
+      
+//      // create Markers for all errors in SourceFile
+//      for(List<Throwable> list : context.transformer.getUnresolved()) {
+//        for (Throwable t : list) {
+//          createErrorMarker(sourceFile == null ? project :sourceFile, t);
+//        }
+//      }
  
     } catch (Exception e) {
-      EnhancerPlugin.logError("Error during enhancement", e);
-      createErrorMarker(sourceFile == null ? project :sourceFile, e);
+      EnhancerPlugin.logError("Error during enhancement "+e, e);
+      createErrorMarker(project, e);//sourceFile == null ? project :sourceFile, e);
     }
   }
+
+
 
   private void createErrorMarker(IResource target, Throwable t) {
     try {
       IMarker marker = target.createMarker(IMarker.PROBLEM);
       marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR);
-      marker.setAttribute(IMarker.MESSAGE, "Error during enhancement: " + t.getMessage());
+      marker.setAttribute(IMarker.MESSAGE, "Error during enhancement: " + t);
       marker.setAttribute(IMarker.PRIORITY, IMarker.PRIORITY_HIGH);
       marker.setAttribute(IMarker.LINE_NUMBER, 1);
     } catch (CoreException e) {
@@ -161,13 +168,9 @@ public final class EnhanceBuilder extends IncrementalProjectBuilder {
     }
   }
 
-  private URL[] getClasspath() throws CoreException {
+  private URL[] getClasspath(IJavaProject javaProject) throws CoreException {
     
-    IProject project = getProject();
-    IJavaProject javaProject = JavaCore.create(project);
-
     String[] ideClassPath = JavaRuntime.computeDefaultRuntimeClassPath(javaProject);
-
     return UrlPathHelper.convertToUrl(ideClassPath);
   }
 
@@ -260,16 +263,92 @@ public final class EnhanceBuilder extends IncrementalProjectBuilder {
   }
 
   private class ResourceVisitor implements IResourceVisitor {
+    
     private final IProgressMonitor monitor;
+    private final TransformContext transformContext;
 
-    private ResourceVisitor(final IProgressMonitor monitor) {
+    private ResourceVisitor(final IProgressMonitor monitor) throws CoreException {
       this.monitor = monitor;
+      this.transformContext = transformContext();
+      transformContext.logPackages();
     }
 
     @Override
     public boolean visit(IResource resource) throws CoreException {
-      checkResource(resource, monitor);
+      if (isClass(resource)) {
+        process(resource, monitor, transformContext);        
+      }
       return true;
+    }
+  }
+  
+  /**
+   * Create and return the transformation context.
+   */
+  private TransformContext transformContext() throws CoreException {
+    
+    IProject project = getProject();
+    IJavaProject javaProject = JavaCore.create(project);
+      
+    URL[] paths = getClasspath(javaProject);
+
+    int enhanceDebugLevel = EnhancerPlugin.getEnhanceDebugLevel();
+
+    EnhancerPlugin.logInfo("... enhanceDebugLevel:"+enhanceDebugLevel);
+
+    URLClassLoader classloader = new URLClassLoader(paths);
+    
+    ClassBytesReader reader = new ClassPathClassBytesReader(null);
+    AgentManifest manifest = AgentManifest.read(classloader, null);
+
+    // TODO: Find manifest file in main/resources
+    IFile ebmf = project.getFile("src/main/resources/ebean.mf");
+    //IFile ebmf = findSourcePath(project, "ebean.mf");
+    if (ebmf != null && ebmf.exists()) {
+      EnhancerPlugin.logInfo("... found ebean manifest file");
+      try {
+        manifest.addResource(ebmf.getContents());
+      } catch (IOException e) {
+        EnhancerPlugin.logInfo("Error reading ebean.mf" + e.getMessage()); 
+      }
+    }
+    
+    Transformer transformer = new Transformer(reader, "debug=" + enhanceDebugLevel, manifest);
+    transformer.setLogout(new MessageOutput() {
+      
+      @Override
+      public void println(String arg0) {
+        EnhancerPlugin.logInfo("... "+arg0);
+      }
+    });
+    
+    return new TransformContext(classloader, manifest, transformer);
+  }
+
+  class TransformContext {
+    
+    final Transformer transformer;
+    final AgentManifest manifest;
+    final URLClassLoader classloader;
+
+    TransformContext(URLClassLoader classloader, AgentManifest manifest, Transformer transformer) {
+      this.classloader = classloader;
+      this.manifest = manifest;
+      this.transformer = transformer;
+    }
+
+    /**
+     * Perform enhancement.
+     */
+    public byte[] transform(String className, byte[] classBytes) throws IllegalClassFormatException {
+      return transformer.transform(classloader, className, null, null, classBytes);
+    }
+
+    void logPackages() {
+      EnhancerPlugin.logInfo("ebean manifest packages -" 
+      + " entity: "+ manifest.getEntityPackages()
+      + " transactional: "+ manifest.getTransactionalPackages()
+      + " querybean: "+manifest.getQuerybeanPackages());
     }
   }
 }

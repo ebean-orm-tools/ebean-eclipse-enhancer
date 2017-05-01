@@ -20,7 +20,7 @@ public class ToggleNatureHandler extends AbstractHandler {
   @Override
   public Object execute(ExecutionEvent event) throws ExecutionException {
     try {
-      IProject project = getProject(HandlerUtil.getCurrentSelection(event));
+      IProject project = getProject(HandlerUtil.getCurrentSelection(event), "toggle nature handler");
       if ((project != null) && project.isAccessible()) {
         EnhanceNature.toggleNature(project, project.hasNature(EnhancerConstants.NATURE_ID) ? false : true);
       }
@@ -31,7 +31,7 @@ public class ToggleNatureHandler extends AbstractHandler {
     return null;
   }
 
-  static IProject getProject(ISelection selection) {
+  static IProject getProject(ISelection selection, String activity) {
     if ((selection != null) && (selection instanceof IStructuredSelection)) {
       for (Iterator<?> iterator = ((IStructuredSelection) selection).iterator(); iterator.hasNext();) {
         Object object = iterator.next();
@@ -48,8 +48,7 @@ public class ToggleNatureHandler extends AbstractHandler {
      * 
      * TODO: use popup alert to have user retry
      */
-    EnhancerPlugin.logError("command execution failed, please try again", null);
-
+    EnhancerPlugin.logInfo("No current project selected? for activity:" + activity, null);
     return null;
   }
 }
