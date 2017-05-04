@@ -301,7 +301,7 @@ public final class EnhanceBuilder extends IncrementalProjectBuilder {
     ClassBytesReader reader = new ClassPathClassBytesReader(null);
     AgentManifest manifest = AgentManifest.read(classloader, null);
 
-    // TODO: Find manifest file in main/resources
+    // TODO: Sort out this hack to find manifest file in main/resources
     IFile ebmf = project.getFile("src/main/resources/ebean.mf");
     //IFile ebmf = findSourcePath(project, "ebean.mf");
     if (ebmf != null && ebmf.exists()) {
