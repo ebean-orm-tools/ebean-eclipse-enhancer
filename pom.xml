@@ -10,7 +10,7 @@
 
   <groupId>io.ebean</groupId>
   <artifactId>ebean-eclipse</artifactId>
-  <version>10.2.1-SNAPSHOT</version>
+  <version>11.5.1-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <properties>

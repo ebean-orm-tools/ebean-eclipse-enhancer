@@ -345,7 +345,7 @@ public final class EnhanceBuilder extends IncrementalProjectBuilder {
     }
 
     void logPackages() {
-      EnhancerPlugin.logInfo("ebean manifest packages -" 
+      EnhancerPlugin.logInfo("ebean v11+ manifest packages -" 
       + " entity: "+ manifest.getEntityPackages()
       + " transactional: "+ manifest.getTransactionalPackages()
       + " querybean: "+manifest.getQuerybeanPackages());
