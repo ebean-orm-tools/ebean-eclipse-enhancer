@@ -2,7 +2,7 @@
 <feature
       id="io.ebean.eclipse"
       label="%plugin.name"
-      version="11.9.1.qualifier"
+      version="11.11.1.qualifier"
       provider-name="%plugin.provider">
 
    <description url="">
