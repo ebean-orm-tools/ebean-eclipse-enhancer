@@ -5,7 +5,7 @@ Ebean ORM eclipse enhancement plugin.  This performs Ebean enhancement for both 
 
 ### Update site
 
-http://ebean-orm.github.io/eclipse/update
+https://ebean.io/eclipse/update/
 
 ### Notes
 
